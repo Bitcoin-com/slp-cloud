@@ -85,11 +85,6 @@ gulp.task("build", () => {
         fileName: "./testnet/components.json",
         edit: (parsedJson, file) => {
           testnetComponents.forEach((item, index) => {
-            if (item.key === "RawTxids") {
-              parsedJson.components.schemas.RawTxids.properties.txids.example =
-                item.value
-            }
-
             if (item.key === "SLPTxids") {
               parsedJson.components.schemas.SLPTxids.properties.txids.example =
                 item.value
@@ -201,11 +196,6 @@ gulp.task("build", () => {
         fileName: "./mainnet/components.json",
         edit: (parsedJson, file) => {
           mainnetComponents.forEach((item, index) => {
-            if (item.key === "RawTxids") {
-              parsedJson.components.schemas.RawTxids.properties.txids.example =
-                item.value
-            }
-
             if (item.key === "SLPTxids") {
               parsedJson.components.schemas.SLPTxids.properties.txids.example =
                 item.value

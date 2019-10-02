@@ -40,10 +40,7 @@
   },
   {
     "key": "SLPListBulk",
-    "value": [
-      "",
-      ""
-    ]
+    "value": ["", ""]
   },
   {
     "key": "SLPTxids",
