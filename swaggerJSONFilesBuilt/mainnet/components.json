@@ -72,39 +72,6 @@
 						"example": []
 					}
 				}
-			},
-			"Utxo": {
-				"type": "object",
-				"properties": {
-					"txid": {
-						"type": "string"
-					},
-					"vout": {
-						"type": "number"
-					},
-					"scriptPubKey": {
-						"type": "string"
-					},
-					"amount": {
-						"type": "number",
-						"format": "float"
-					},
-					"satoshis": {
-						"type": "number"
-					},
-					"height": {
-						"type": "number"
-					},
-					"confirmations": {
-						"type": "number"
-					},
-					"legacyAddress": {
-						"type": "string"
-					},
-					"cashAddress": {
-						"type": "string"
-					}
-				}
 			}
 		}
 	}

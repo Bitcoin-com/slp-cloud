@@ -23,9 +23,9 @@ const AuthMW = require("./middleware/auth")
 const swStats = require("swagger-stats")
 let apiSpec
 if (process.env.NETWORK === "mainnet") {
-  apiSpec = require("./public/bitcoin-com-mainnet-rest-v2.json")
+  apiSpec = require("./public/bitcoin-com-mainnet-slp-rest-v2.json")
 } else {
-  apiSpec = require("./public/bitcoin-com-testnet-rest-v2.json")
+  apiSpec = require("./public/bitcoin-com-testnet-slp-rest-v2.json")
 }
 
 // v2

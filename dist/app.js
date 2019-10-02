@@ -20,10 +20,10 @@ var AuthMW = require("./middleware/auth");
 var swStats = require("swagger-stats");
 var apiSpec;
 if (process.env.NETWORK === "mainnet") {
-    apiSpec = require("./public/bitcoin-com-mainnet-rest-v2.json");
+    apiSpec = require("./public/bitcoin-com-mainnet-slp-rest-v2.json");
 }
 else {
-    apiSpec = require("./public/bitcoin-com-testnet-rest-v2.json");
+    apiSpec = require("./public/bitcoin-com-testnet-slp-rest-v2.json");
 }
 // v2
 var indexV2 = require("./routes/v2/index");

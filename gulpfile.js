@@ -125,7 +125,7 @@ gulp.task("build", () => {
       .src("./swaggerJSONFilesBuilt/testnet/**/*.json")
       .pipe(
         merge({
-          fileName: "bitcoin-com-testnet-rest-v2.json"
+          fileName: "bitcoin-com-testnet-slp-rest-v2.json"
         })
       )
       .pipe(gulp.dest("./dist/public"))
@@ -243,7 +243,7 @@ gulp.task("build", () => {
       .src("./swaggerJSONFilesBuilt/mainnet/**/*.json")
       .pipe(
         merge({
-          fileName: "bitcoin-com-mainnet-rest-v2.json"
+          fileName: "bitcoin-com-mainnet-slp-rest-v2.json"
         })
       )
       .pipe(gulp.dest("./dist/public"))
