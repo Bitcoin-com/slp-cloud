@@ -2,15 +2,7 @@
 import axios, { AxiosResponse } from "axios"
 import * as express from "express"
 import * as util from "util"
-import {
-  BalanceForAddressByTokenId,
-  BalancesForAddress,
-  BalancesForToken,
-  BurnTotalResult,
-  ConvertResult,
-  TokenInterface,
-  ValidateTxidResult
-} from "./interfaces/RESTInterfaces"
+import { BalanceForAddressByTokenId, BalancesForAddress, BalancesForToken, BurnTotalResult, TokenInterface, ValidateTxidResult } from "./interfaces/RESTInterfaces"
 import logger = require("./logging.js")
 import routeUtils = require("./route-utils")
 import wlogger = require("../../util/winston-logging")
@@ -43,8 +35,6 @@ router.get("/balancesForToken/:tokenId", balancesForTokenSingle)
 router.post("/balancesForToken", balancesForTokenBulk)
 router.get("/balance/:address/:tokenId", balancesForAddressByTokenIDSingle)
 router.post("/balance", balancesForAddressByTokenIDBulk)
-router.get("/convert/:address", convertAddressSingle)
-router.post("/convert", convertAddressBulk)
 router.post("/validateTxid", validateBulk)
 router.get("/validateTxid/:txid", validateSingle)
 router.get("/txDetails/:txid", txDetails)
@@ -1215,99 +1205,6 @@ async function balancesForAddressByTokenIDBulk(
   }
 }
 
-async function convertAddressSingle(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-): Promise<express.Response> {
-  try {
-    let address: string = req.params.address
-
-    // Validate input
-    if (!address || address === "") {
-      res.status(400)
-      return res.json({ error: "address can not be empty" })
-    }
-
-    const slpAddr: string = SLP.Address.toSLPAddress(address)
-
-    const obj: ConvertResult = {
-      slpAddress: "",
-      cashAddress: "",
-      legacyAddress: ""
-    }
-    obj.slpAddress = slpAddr
-    obj.cashAddress = SLP.Address.toCashAddress(slpAddr)
-    obj.legacyAddress = SLP.Address.toLegacyAddress(obj.cashAddress)
-
-    res.status(200)
-    return res.json(obj)
-  } catch (err) {
-    wlogger.error(`Error in slp.ts/convertAddressSingle().`, err)
-
-    const { msg, status } = routeUtils.decodeError(err)
-    if (msg) {
-      res.status(status)
-      return res.json({ error: msg })
-    }
-    res.status(500)
-    return res.json({
-      error: `Error in /address/convert/:address: ${err.message}`
-    })
-  }
-}
-
-async function convertAddressBulk(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-): Promise<express.Response> {
-  let addresses: string[] = req.body.addresses
-
-  // Reject if hashes is not an array.
-  if (!Array.isArray(addresses)) {
-    res.status(400)
-    return res.json({
-      error: "addresses needs to be an array. Use GET for single address."
-    })
-  }
-
-  // Enforce array size rate limits
-  if (!routeUtils.validateArraySize(req, addresses)) {
-    res.status(429) // https://github.com/Bitcoin-com/rest.bitcoin.com/issues/330
-    return res.json({
-      error: `Array too large.`
-    })
-  }
-
-  // Convert each address in the array.
-  const convertedAddresses: ConvertResult[] = []
-  for (let i: number = 0; i < addresses.length; i++) {
-    const address = addresses[i]
-
-    // Validate input
-    if (!address || address === "") {
-      res.status(400)
-      return res.json({ error: "address can not be empty" })
-    }
-
-    const slpAddr: string = SLP.Address.toSLPAddress(address)
-
-    const obj: ConvertResult = {
-      slpAddress: "",
-      cashAddress: "",
-      legacyAddress: ""
-    }
-    obj.slpAddress = slpAddr
-    obj.cashAddress = SLP.Address.toCashAddress(slpAddr)
-    obj.legacyAddress = SLP.Address.toLegacyAddress(obj.cashAddress)
-
-    convertedAddresses.push(obj)
-  }
-
-  res.status(200)
-  return res.json(convertedAddresses)
-}
 
 async function validateBulk(
   req: express.Request,
@@ -2272,8 +2169,6 @@ module.exports = {
     balancesForAddressBulk,
     balancesForAddressByTokenIDSingle,
     balancesForAddressByTokenIDBulk,
-    convertAddressSingle,
-    convertAddressBulk,
     validateBulk,
     isValidSlpTxid,
     createTokenType1,
